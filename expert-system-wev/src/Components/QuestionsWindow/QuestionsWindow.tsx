@@ -20,10 +20,12 @@ const StyledQuestionsWindow = styled.div`
   .left-div {
     float: left;
     box-shadow: 0 0 5px 1px #e184ba;
-    width: 20%;
+    width: 30%;
   }
 
   .right-div {
+    position: relative;
+    overflow: hidden;
     float: right;
     box-shadow: 0 0 5px 1px #e184ba;
     flex-grow: 1;
@@ -39,6 +41,7 @@ export const QuestionsWindow: React.FC<{
     return {
       to: "question/" + question.id,
       text: ">\t" + question.text,
+      id: question.id,
     };
   });
   return (

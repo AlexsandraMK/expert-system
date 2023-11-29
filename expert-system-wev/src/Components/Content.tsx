@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 
 const StyledContent = styled.div`
-  width: 1000px;
+  width: 1250px;
   background-color: white;
   margin: 0px auto;
   box-shadow: 0 0 2px 2px #c23183;

@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { StyledH1, StyledH4 } from "./Texts";
-import AppStore from "./AppStore";
+import AppStore from "../Stores/AppStore";
 
 const StyledTopLine = styled.div`
   display: flex;

@@ -1,12 +1,11 @@
 import "./App.css";
-import AppStore from "./Components/AppStore";
+import AppStore from "./Stores/AppStore";
 import { Content } from "./Components/Content";
-import { DialogModal } from "./Components/Modal";
 import { NavPanel } from "./Components/NavPanel";
 import { TopLine } from "./Components/TopLine";
 import { Outlet } from "react-router-dom";
 import { observer } from "mobx-react";
-import { StyledButton } from "./Components/Button";
+import { ProtocolWindow } from "./Components/ProtocolWindow/ProtocolWindow";
 
 const App = observer(() => {
   return (
@@ -24,14 +23,7 @@ const App = observer(() => {
       <div>
         <Outlet />
       </div>
-      {AppStore.showProtocol && (
-        <DialogModal onCloseClick={AppStore.closeProtocol}>
-          <DialogModal.Header> Полученный протокол </DialogModal.Header>
-          <DialogModal.Body><div>
-            Был вызван протокол - Протокол</div></DialogModal.Body>
-          <DialogModal.Footer><StyledButton onClick={AppStore.closeProtocol}>Ок</StyledButton></DialogModal.Footer>
-        </DialogModal>
-      )}
+      {AppStore.showProtocol && <ProtocolWindow/>}
     </Content>
   );
 });

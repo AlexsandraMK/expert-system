@@ -6,24 +6,11 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { QuestionsWindow } from "./Components/QuestionsWindow/QuestionsWindow";
 import { AnswersWindow } from "./Components/AnswersWindow/AnswersWindow";
 import App from "./App.jsx";
-import AppStore from "./Components/AppStore";
+import { QuestionStore } from "./Stores/QuestionStore";
 
 var questions = require("./Resources/questions.json");
-console.log(questions);
 
-let answerChildren = [
-  {
-    path: "question/:question_id",
-    element: <AnswersWindow />,
-    loader: ({ params }) => {
-      AppStore.setQuestion(
-        questions.find((element) => element.id === params.question_id)
-      );
-
-      return null;
-    },
-  },
-];
+export let maxQuestions = questions.patient.length + questions.user.length + questions.protocol.length + questions.project.length;
 
 const appRoute = createBrowserRouter([
   {
@@ -36,15 +23,11 @@ const appRoute = createBrowserRouter([
         children: [
           {
             path: "question/:question_id",
-            element: <AnswersWindow />,
+            element: <AnswersWindow questionStore={new QuestionStore}/>,
             loader: ({ params }) => {
-              AppStore.setQuestion(
-                questions.patient.find(
-                  (element) => element.id === params.question_id
-                )
+              return questions.patient.find(
+                (element) => element.id === params.question_id
               );
-
-              return null;
             },
           },
         ],
@@ -55,15 +38,11 @@ const appRoute = createBrowserRouter([
         children: [
           {
             path: "question/:question_id",
-            element: <AnswersWindow />,
+            element: <AnswersWindow questionStore={new QuestionStore}/>,
             loader: ({ params }) => {
-              AppStore.setQuestion(
-                questions.project.find(
-                  (element) => element.id === params.question_id
-                )
+              return questions.project.find(
+                (element) => element.id === params.question_id
               );
-
-              return null;
             },
           },
         ],
@@ -74,15 +53,11 @@ const appRoute = createBrowserRouter([
         children: [
           {
             path: "question/:question_id",
-            element: <AnswersWindow />,
+            element: <AnswersWindow questionStore={new QuestionStore}/>,
             loader: ({ params }) => {
-              AppStore.setQuestion(
-                questions.user.find(
-                  (element) => element.id === params.question_id
-                )
+              return questions.user.find(
+                (element) => element.id === params.question_id
               );
-
-              return null;
             },
           },
         ],
@@ -93,15 +68,11 @@ const appRoute = createBrowserRouter([
         children: [
           {
             path: "question/:question_id",
-            element: <AnswersWindow />,
+            element: <AnswersWindow questionStore={new QuestionStore}/>,
             loader: ({ params }) => {
-              AppStore.setQuestion(
-                questions.protocol.find(
-                  (element) => element.id === params.question_id
-                )
+              return questions.protocol.find(
+                (element) => element.id === params.question_id
               );
-
-              return null;
             },
           },
         ],

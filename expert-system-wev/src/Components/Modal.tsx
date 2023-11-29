@@ -50,16 +50,15 @@ const StyledModal = styled.div`
   }
 `;
 
-const StyledBackDrop = styled.div`
+export const StyledBackDrop = styled.div`
   opacity: 0.5;
-  position: fixed;
+  position: absolute;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
   z-index: 50;
   background-color: #000;
-  cursor: pointer;
 `;
 
 export const DialogModal = (props: {
