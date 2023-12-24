@@ -36,7 +36,7 @@ export const NavPanel: React.FC<{ links: LinkType[] } & NavPanelProps> = observe
             text={link.text} 
             id={link.id}/>
 
-        {AppStore.questionsIds.includes(link.id) && <img width={20} height={20} src="/img/галочка.svg"/>}
+        {AppStore.closeQuestionsIds.includes(link.id) && <img width={20} height={20} src="/img/галочка.svg"/>}
         </div>
       ))}
     </StyledNavPanel>

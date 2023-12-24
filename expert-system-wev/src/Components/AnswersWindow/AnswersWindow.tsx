@@ -3,7 +3,7 @@ import { StyledH1 } from "../Texts";
 import AppStore from "../../Stores/AppStore";
 import { observer } from "mobx-react";
 import { styled } from "styled-components";
-import { StyledButton } from "../Button";
+import { StyledButton, StyledButtonWithChangeColor } from "../Button";
 import { QuestionStore } from "../../Stores/QuestionStore";
 import { useLoaderData } from "react-router-dom";
 import { StyledBackDrop } from "../Modal";
@@ -36,15 +36,32 @@ const OneAnswer: React.FC<{ questionStore: QuestionStore }> = observer(
       <>
         {questionStore.existingAnswers.map((answer: AnswerType) => (
           <div>
-            <StyledButton
-              onClick={() => {
-                AppStore.addAnswerAsync(questionStore).then(() => {
-                  questionStore.closeQuestion();
-                });
-              }}
-            >
-              {answer.text}
-            </StyledButton>
+            {AppStore.allChooseAnswersIds.includes(answer.id) && (
+              <StyledButtonWithChangeColor
+                background="#85004b"
+                color="#e19cc4"
+                onClick={() => {
+                  questionStore.addAnswer(answer.id);
+                  AppStore.addAnswerAsync(questionStore).then(() => {
+                    questionStore.closeQuestion();
+                  });
+                }}
+              >
+                {answer.text}
+              </StyledButtonWithChangeColor>
+            )}
+            {!AppStore.allChooseAnswersIds.includes(answer.id) && (
+              <StyledButtonWithChangeColor
+                onClick={() => {
+                  questionStore.addAnswer(answer.id);
+                  AppStore.addAnswerAsync(questionStore).then(() => {
+                    questionStore.closeQuestion();
+                  });
+                }}
+              >
+                {answer.text}
+              </StyledButtonWithChangeColor>
+            )}
           </div>
         ))}
       </>
@@ -52,29 +69,54 @@ const OneAnswer: React.FC<{ questionStore: QuestionStore }> = observer(
   }
 );
 
+const Buttons: React.FC<{ answer: AnswerType; questionStore: QuestionStore }> =
+  observer(({ answer, questionStore }) => {
+    return (
+      <StyledConteiner>
+        {AppStore.allChooseAnswersIds.includes(answer.id + "_green") && (
+          <StyledInput background="green" id={answer.id} />
+        )}
+        {AppStore.allChooseAnswersIds.includes(answer.id + "_red") && (
+          <StyledInput background="red" id={answer.id} />
+        )}
+
+        {!AppStore.allChooseAnswersIds.includes(answer.id + "_green") &&
+          !AppStore.allChooseAnswersIds.includes(answer.id + "_red") && (
+            <StyledInput
+              background="white"
+              id={answer.id}
+              onClick={(event: any) => {
+                event.preventDefault();
+
+                if (event.target.style.background == "green") {
+                  questionStore.removeAnswer(answer.id + "_green");
+                  questionStore.addAnswer(answer.id + "_red");
+                  event.target.style.background = "red";
+                } else if (event.target.style.backgroundColor == "red") {
+                  questionStore.removeAnswer(answer.id + "_red");
+                  event.target.style.background = "white";
+                } else if (
+                  event.target.style.backgroundColor == "white" ||
+                  event.target.style.backgroundColor == ""
+                ) {
+                  questionStore.addAnswer(answer.id + "_green");
+                  event.target.style.background = "green";
+                }
+              }}
+            />
+          )}
+
+        <label>{answer.text}</label>
+      </StyledConteiner>
+    );
+  });
+
 const ManyAnswers: React.FC<{ questionStore: QuestionStore }> = observer(
   ({ questionStore }) => {
     return (
       <>
         {questionStore.existingAnswers.map((answer: AnswerType) => (
-          <StyledConteiner>
-            <StyledInput
-              id={answer.id}
-              onClick={(event: any) => {
-                event.preventDefault();
-                if (event.target.style.background == "green")
-                  event.target.style.background = "red";
-                else if (event.target.style.backgroundColor == "red")
-                  event.target.style.background = "white";
-                else if (
-                  event.target.style.backgroundColor == "white" ||
-                  event.target.style.backgroundColor == ""
-                )
-                  event.target.style.background = "green";
-              }}
-            />
-            <label>{answer.text}</label>
-          </StyledConteiner>
+          <Buttons answer={answer} questionStore={questionStore} />
         ))}
       </>
     );
@@ -87,18 +129,16 @@ export const AnswersInfo: React.FC<{ questionStore: QuestionStore }> = observer(
       <>
         <StyledH1>{questionStore.questionText}</StyledH1>
         <AnswersDiv>
-          <div className="grid">
-            {questionStore.isOneAnswer === true && (
-              <OneAnswer questionStore={questionStore} />
-            )}
-            {questionStore.isOneAnswer !== true && (
-              <>
+          <StyledConteiner fd="column">
+            <div className="grid">
+              {questionStore.isOneAnswer === true && (
+                <OneAnswer questionStore={questionStore} />
+              )}
+              {questionStore.isOneAnswer !== true && (
                 <ManyAnswers questionStore={questionStore} />
-              </>
-            )}
-          </div>
-          {questionStore.isOneAnswer !== true && (
-            <>
+              )}
+            </div>
+            {questionStore.isOneAnswer !== true && (
               <StyledButton
                 onClick={() => {
                   AppStore.addAnswerAsync(questionStore).then(() => {
@@ -108,10 +148,11 @@ export const AnswersInfo: React.FC<{ questionStore: QuestionStore }> = observer(
               >
                 Ответить
               </StyledButton>
-            </>
-          )}
+            )}
+          </StyledConteiner>
+          {questionStore.isOneAnswer !== true && <></>}
         </AnswersDiv>
-        {AppStore.questionsIds.includes(questionStore.questionId) && (
+        {AppStore.closeQuestionsIds.includes(questionStore.questionId) && (
           <StyledBackDrop />
         )}
       </>

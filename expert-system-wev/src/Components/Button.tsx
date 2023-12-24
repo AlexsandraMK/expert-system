@@ -1,7 +1,7 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
 export const StyledButton = styled.button`
-  margin: 0px 20px;
+  margin: 10px 20px;
   padding: 5px;
   background-color: #e19cc4;
   color: #85004b;
@@ -14,4 +14,12 @@ export const StyledButton = styled.button`
     background-color: #85004b;
     color: #e19cc4;
   }
+`;
+
+export const StyledButtonWithChangeColor = styled(StyledButton)<{
+  background?: string;
+  color?: string;
+}>`
+  background-color: ${({ background = "#e19cc4" }) => background};
+  color: ${({ color = "#85004b" }) => color};
 `;

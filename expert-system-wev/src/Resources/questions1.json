@@ -1,0 +1,69 @@
+{
+  "patient": [
+    {
+      "id": "patient_q_1",
+      "isOneAnswer": false,
+      "text": "Состояние пациента?",
+      "answers": [
+        {
+          "id": "patient_q_1_a_1",
+          "text": "Кома"
+        },
+        {
+          "id": "patient_q_1_a_2",
+          "text": "Активен"
+        },
+        {
+          "id": "patient_q_1_a_3",
+          "text": "Потеря одного из 5ти чувств"
+        },
+        {
+          "id": "patient_q_1_a_4",
+          "text": "Аллергическая реакция"
+        },
+        {
+          "id": "patient_q_1_a_3",
+          "text": "Потеря одного из 5ти чувств"
+        },
+        {
+          "id": "patient_q_1_a_4",
+          "text": "Аллергическая реакция"
+        }
+      ]
+    },
+    {
+      "id": "patient_q_2",
+      "isOneAnswer": true,
+      "text": "Поведение пациента?",
+      "answers": [
+        {
+          "id": "patient_q_2_a_1",
+          "text": "Спокоен"
+        },
+        {
+          "id": "patient_q_2_a_2",
+          "text": "Агрессивен"
+        }
+      ]
+    }
+  ],
+  "user": [
+    {
+      "id": "user_q_1",
+      "isOneAnswer": true,
+      "text": "Ваша должность?",
+      "answers": [
+        {
+          "id": "user_q_1_a_1",
+          "text": "Лаборант"
+        },
+        {
+          "id": "user_q_1_a_2",
+          "text": "Научный сотрудник"
+        }
+      ]
+    }
+  ],
+  "project": [],
+  "protocol": []
+}

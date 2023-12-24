@@ -5,20 +5,24 @@ import { QuestionSender } from "../Sender/QuestionSender";
 import { maxQuestions } from "..";
 
 class AppStore {
-  questionsIds: IObservableArray<string> = observable.array([]);
+  closeQuestionsIds: IObservableArray<string> = observable.array([]);
+  allChooseAnswersIds: IObservableArray<string> = observable.array([]);
   protocols: IObservableArray<ProtocolType> = observable.array([]);
+  questionsStores: QuestionStore[] = [];
 
   public async addAnswerAsync(questionStore: QuestionStore) {
-    let answersId = Array.from(questionStore.existingAnswers, (answer) => answer.id);
-
+    this.questionsStores.push(questionStore);
     // send
     QuestionSender.sendAnswerByQuestionIdAsync(
       questionStore.questionId,
-      answersId
+      questionStore.chooseAnswersIds
     ).then(() => {
-      this.questionsIds.push(questionStore.questionId);
+      this.closeQuestionsIds.push(questionStore.questionId);
 
-      if (this.questionsIds.length == maxQuestions)
+      this.allChooseAnswersIds.replace(
+        this.allChooseAnswersIds.concat(questionStore.chooseAnswersIds)
+      );
+      if (this.closeQuestionsIds.length == maxQuestions)
         QuestionSender.sendEndAsync().then((protocolsData) => {
           this.protocols.replace(protocolsData);
           this.showProtocol = true;
@@ -31,6 +35,18 @@ class AppStore {
   constructor() {
     makeAutoObservable(this);
   }
+
+  restartExpertSystem = () => {
+    QuestionSender.sendRestartAsync().then(() => {
+      this.allChooseAnswersIds.replace([]);
+      this.closeQuestionsIds.replace([]);
+      this.protocols.replace([]);
+      this.questionsStores.forEach((questionStore: QuestionStore) => {
+        questionStore.clearAnswers();
+      });
+      this.questionsStores.splice(0, this.questionsStores.length);
+    });
+  };
 
   openProtocol = () => {
     this.showProtocol = true;

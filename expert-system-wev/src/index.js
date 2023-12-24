@@ -62,21 +62,6 @@ const appRoute = createBrowserRouter([
           },
         ],
       },
-      {
-        path: "protocol",
-        element: <QuestionsWindow questions={questions.protocol} />,
-        children: [
-          {
-            path: "question/:question_id",
-            element: <AnswersWindow questionStore={new QuestionStore}/>,
-            loader: ({ params }) => {
-              return questions.protocol.find(
-                (element) => element.id === params.question_id
-              );
-            },
-          },
-        ],
-      },
     ],
   },
 ]);

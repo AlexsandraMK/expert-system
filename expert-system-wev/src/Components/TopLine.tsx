@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { StyledH1, StyledH4 } from "./Texts";
 import AppStore from "../Stores/AppStore";
+import { StyledButton } from "./Button";
 
 const StyledTopLine = styled.div`
   display: flex;
@@ -34,6 +35,7 @@ export const TopLine: React.FC<{}> = () => {
       <button className="logo-button" onClick={AppStore.openProtocol} >
         <StyledH1>ФПМИ</StyledH1>
       </button>
+      <StyledButton onClick={AppStore.restartExpertSystem}>Начать заново</StyledButton>
       <div className="authors-div">
         <StyledH4>Бортников Никита</StyledH4>
         <StyledH4>Ефименко Александра</StyledH4>

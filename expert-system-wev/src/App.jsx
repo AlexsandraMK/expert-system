@@ -16,7 +16,6 @@ const App = observer(() => {
           { to: "patient", text: "Пациент" },
           { to: "project", text: "Проект" },
           { to: "user", text: "Пользователь" },
-          { to: "protocol", text: "Протокол" },
         ]}
       />
 

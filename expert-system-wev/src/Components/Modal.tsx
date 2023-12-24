@@ -11,7 +11,7 @@ const StyledModal = styled.div`
 
   margin: auto;
 
-  width: 600px;
+  width: 800px;
   max-height: fit-content;
   background-color: white;
 

@@ -5,7 +5,6 @@ export class QuestionSender {
     questionId: string,
     answersId: string[]
   ) {
-    /*
     let url: string = serverOrigin + "/send/question";
 
     let response = await Sender.sendRequest({
@@ -18,11 +17,9 @@ export class QuestionSender {
     });
 
     return response;
-    */
   }
 
   public static async sendEndAsync() {
-    /*
     let url: string = serverOrigin + "/end";
 
     let response = await Sender.sendRequest({
@@ -30,8 +27,17 @@ export class QuestionSender {
       method: "GET",
     });
 
+    return response.displayedProtocols;
+  }
+
+  public static async sendRestartAsync() {
+    let url: string = serverOrigin + "/start";
+
+    let response = await Sender.sendRequest({
+      url: url,
+      method: "GET",
+    });
+
     return response;
-    */
-    return [{ name: "ЫЫЫЫ", reaction: "Надо валить!" }];
   }
 }

@@ -1,4 +1,6 @@
-export const serverOrigin = "http://localhost:8080";
+import { error } from "console";
+
+export const serverOrigin = "http://localhost:8000";
 
 export class Sender {
   static async sendRequest(requestParams: {
@@ -13,12 +15,19 @@ export class Sender {
       headers: requestParams.headers,
     });
 
-    let answer: any & { status: number; message: string } =
-      await response.json();
+    let answer = response
+      .json()
+      .then((answer) => {
+        if (!response.ok) {
+          throw Error(answer.message);
+        }
 
-    if (answer.status !== 200) {
-      throw Error(answer.message);
-    }
+        return answer;
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+
     return answer;
   }
 }
